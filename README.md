@@ -26,5 +26,5 @@ try:
         # control_data.BUTTON.(F1/F2/F3/F4/F5/F6/F7/F8)                 # 快捷按钮F1-F8（按下为True, 松开为False）
         
 except KeyboardInterrupt:
-    controller.close()
+    control_data.close()
 ```
