@@ -1,29 +1,28 @@
-# UV Hand Controller
-## Note
-It is desighed only for bitcq unmanned vehicle hand controller
-## Usage
-### Install
+# HandController: 手持地面站终端控制接口
+## 注意
+这是为特定型号的手持地面站终端写的控制接口，不通用。
+## 用法说明
+### 安装
 ```commandline
 python3 setup.py install
 ```
-### Use
-if you want to control something with hand controller, you should first know the params of all buttons and joysticks.
+### 使用
 ```python
 from HandController import Data
 
-
-controller = Data()
+controll_data = Data()
 try:
     while True:
-        controller.update()
+        control_data.update()
         
-        left_joystick_updown = controller.JOYSTICK.LEFT.UP_DOWN
-        print("\rleft_joystick up_down value: %s" % left_joystick_updown)
+        left_joystick_updown = control_data.JOYSTICK.LEFT.UP_DOWN
+        left_joystick_leftright = control_data.JOYSTICK.LEFT.LEFT_RIGHT
+        print("\r左摇杆上下控制值: %s  左摇杆左右控制值:" % (left_joystick_updown.zfill(4), left_joystick_leftright.zfill(4)))
         
-        # controller.JOYSTICK.(LEFT/RIGHT).(LEFT_RIGHT/UP_DOWN)
-        # controller.BUTTON.EMERGENCY_STOP
-        # controller.BUTTON.(B1/B2/B3/B4)
-        # controller.BUTTON.(F1/F2/F3/F4/F5/F6/F7/F8)
+        # control_data.JOYSTICK.(LEFT/RIGHT).(LEFT_RIGHT/UP_DOWN)       # 左/右 摇杆 上下/左右 控制值(-1000, 1000)
+        # control_data.BUTTON.EMERGENCY_STOP                            # 紧急制动按钮 (按下为True，松开为False)
+        # control_data.BUTTON.(B1/B2/B3/B4)                             # 拨动开关（依次从左往右四个按钮，True为向上开启状态，False为向下关闭状态）
+        # control_data.BUTTON.(F1/F2/F3/F4/F5/F6/F7/F8)                 # 快捷按钮F1-F8（按下为True, 松开为False）
         
 except KeyboardInterrupt:
     controller.close()
