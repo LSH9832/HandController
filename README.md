@@ -9,8 +9,7 @@ python3 setup.py install
 ### Use
 if you want to control something with hand controller, you should first know the params of all buttons and joysticks.
 ```python
-# from HandController import Data
-from data import Data
+from HandController import Data
 
 
 controller = Data()
