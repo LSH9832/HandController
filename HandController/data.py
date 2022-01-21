@@ -2,6 +2,7 @@ from .Serial import Connect
 from .data_utils import Button, Joystick, Joysticks
 import platform
 
+__all__ = ["Data"]
 
 class BasicData:
     __baudrate = 115200
@@ -52,7 +53,7 @@ class BasicData:
 
 class Data(BasicData):
 
-    JOYSTICK: Joysticks
+    STICK: Joysticks
     BUTTON: Button
 
     def __init__(self):
@@ -66,7 +67,7 @@ class Data(BasicData):
         self._get_all_data()
         """update joysticks"""
         left_joystick, right_joystick = self._get_all_joystick_data(update=False)
-        self.JOYSTICK = Joysticks(left_joystick, right_joystick)
+        self.STICK = Joysticks(left_joystick, right_joystick)
         """update buttons"""
         self.BUTTON = Button(self._get_all_button_data(update=False))
 
@@ -81,8 +82,8 @@ if __name__ == '__main__':
                 '\r',
                 ser.BUTTON.EMERGENCY_STOP,
                 ser.BUTTON.B1,
-                ser.JOYSTICK.LEFT.LEFT_RIGHT,
-                ser.JOYSTICK.LEFT.UP_DOWN,
+                ser.STICK.LEFT.LEFT_RIGHT,
+                ser.STICK.LEFT.UP_DOWN,
                 ser.BUTTON.F1,
                 '            ',
                 end=''
