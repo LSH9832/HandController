@@ -71,23 +71,3 @@ class Data(BasicData):
         """update buttons"""
         self.BUTTON = Button(self._get_all_button_data(update=False))
 
-
-if __name__ == '__main__':
-
-    ser = Data()
-    try:
-        while True:
-            ser.update()
-            print(
-                '\r',
-                ser.BUTTON.EMERGENCY_STOP,
-                ser.BUTTON.B1,
-                ser.STICK.LEFT.LEFT_RIGHT,
-                ser.STICK.LEFT.UP_DOWN,
-                ser.BUTTON.F1,
-                '            ',
-                end=''
-            )
-    except KeyboardInterrupt:
-        ser.close()
-        print('\nclosed')
