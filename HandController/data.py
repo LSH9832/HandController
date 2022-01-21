@@ -1,10 +1,11 @@
 from .Serial import Connect
 from .data_utils import Button, Joystick, Joysticks
+import platform
 
 
 class BasicData:
     __baudrate = 115200
-    __device_name = '/dev/ttyS3'
+    __device_name = '/dev/ttyS3' if platform.system() == "Linux" else "COM4"
     _data = None
 
     def __init__(self):
