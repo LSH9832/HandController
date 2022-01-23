@@ -43,5 +43,9 @@ class Connect(object):
             result.append(hex(i)[2:].zfill(2))
         return result
 
+    def open(self):
+        if not self.port.isOpen():
+            self.port.open()
+
     def close(self):
         self.port.close()

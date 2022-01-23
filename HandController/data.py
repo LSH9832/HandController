@@ -1,19 +1,30 @@
 from .Serial import Connect
 from .data_utils import Button, Joystick, Joysticks
+from .client import Client
 import platform
 
 __all__ = ["Data"]
 
+LOCAL = True
+WEB = False
+
+
 class BasicData:
+    __zero = ["00" for i in range(30)]
     __baudrate = 115200
     __device_name = '/dev/ttyS3' if platform.system() == "Linux" else "COM4"
     _data = None
+    __source = LOCAL
 
-    def __init__(self):
-        self.__series = Connect(
-            port=self.__device_name,
-            baudrate=self.__baudrate
-        )
+    def __init__(self, source=LOCAL, host="localhost", port=10086, user="admin", pwd="admin"):
+        self.__source = source
+        if self.__source == LOCAL:
+            self.__series = Connect(
+                port=self.__device_name,
+                baudrate=self.__baudrate
+            )
+        else:
+            self.__series = Client(host, port, user, pwd)
 
     @staticmethod
     def __get_joystick_number(hexdata: str):
@@ -22,12 +33,23 @@ class BasicData:
         return int_result
 
     def _get_all_data(self, length=32, start=None):
-        while True:
-            this_data = self.__series.read(1)[0]
-            if this_data == 'aa':
-                if self.__series.read(1)[0] == '55':
-                    self._data = self.__series.read(30)
-                    return self._data
+        if self.__source == LOCAL:
+            while True:
+                self.__series.open()
+                this_data = self.__series.read(1)[0]
+                if this_data == 'aa':
+                    if self.__series.read(1)[0] == '55':
+                        self._data = self.__series.read(30)
+                        self.__series.close()
+                        break
+        else:
+            try:
+                self._data = self.__series.get_data()
+            except KeyboardInterrupt:
+                exit(0)
+            except:
+                self._data = self.__zero
+        return self._data
 
     def _get_all_joystick_data(self, update=True):
         now_data = self._get_all_data() if update else self._data
@@ -56,8 +78,8 @@ class Data(BasicData):
     STICK: Joysticks
     BUTTON: Button
 
-    def __init__(self):
-        super(Data, self).__init__()
+    def __init__(self, source=LOCAL, host="localhost", port=10086, user="admin", pwd="admin"):
+        super(Data, self).__init__(source, host, port, user, pwd)
         self._get_all_data()
 
     def get_origion_data(self, update=True):
