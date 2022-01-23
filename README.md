@@ -1,13 +1,20 @@
 # HandController: 手持地面站终端控制接口
 ## 注意
-这是为特定型号的手持地面站终端写的控制接口，不通用。支持Linux 和 Windows系统
+- 这是为特定型号的手持地面站终端写的控制接口，不通用。支持Linux 和 Windows系统
+- 手持地面站需要使用python3.6及以上版本安装此模块，被控对象可以使用任意版本。
+- 被控对象如果使用python2.7版本，则需要改为使用目录下HandController2.7.zip中的代码，使用setup.sh配置环境，且目前无法使用setuptools安装到系统环境中。
+```commandline
+cd HandController2.7
+sh setup.sh
+```
+使用本模块对ROS小车进行基本控制的demo请见客户端代码car_client.py和服务端代码controller_server.py。
 ## 用法说明
 ### 安装
 ```commandline
 python3 setup.py install
 ```
 ### 使用
-#### demo
+#### Demo1. 本地查看
 ```python
 from HandController import Data
 
