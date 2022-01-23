@@ -7,7 +7,7 @@
 cd HandController2.7
 sh setup.sh
 ```
-使用本模块对ROS小车进行基本控制的demo请见客户端代码car_client.py和服务端代码controller_server.py。
+使用本模块对ROS小车进行基本控制的demo请见客户端代码ros_client.py和服务端代码controller_server.py。
 ## 用法说明
 ### 安装
 ```commandline
